@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroSynapse</title>
+    <link rel="icon" href="C:\Users\sanvi\OneDrive\Desktop\neurosynapseFrontBack\logo.png" type="image/x-icon">
+
+    <style>
+        :root {
+            --bg-color-light: #ffffff;
+            --text-color-light: #333333;
+            --input-bg-light: #f9f9f9;
+            --primary-color-light: #6a4f7d;
+            --secondary-color-light: #8b5ea8;
+
+            --bg-color-dark: #2c2c2c;
+            --text-color-dark: #f4f4f4;
+            --input-bg-dark: #444444;
+            --primary-color-dark: #6a4f7d;
+            --secondary-color-dark: #8b5ea8;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-color-light);
+            color: var(--text-color-light);
+            transition: background-color 0.3s, color 0.3s;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: var(--bg-color-light);
+            color: var(--text-color-light);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 60%;
+            max-width: 300px;
+            height: auto;
+            margin: 10px auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color-light);
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color-light);
+        }
+
+        button {
+            padding: 15px 20px;
+            margin: 10px 5px;
+            background-color: var(--primary-color-light);
+            color: var(--text-color-light);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            opacity: 0.9;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            margin: 12px 0;
+            border: 1px solid var(--text-color-light);
+            border-radius: 8px;
+            background-color: var(--input-bg-light);
+            color: var(--text-color-light);
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color-light);
+            box-shadow: 0 0 5px rgba(106, 79, 125, 0.7);
+        }
+
+        .dark-mode {
+            --bg-color-light: var(--bg-color-dark);
+            --text-color-light: var(--text-color-dark);
+            --input-bg-light: var(--input-bg-dark);
+            --primary-color-light: var(--primary-color-dark);
+            --secondary-color-light: var(--secondary-color-dark);
+        }
+
+        .toggle-mode {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: var(--primary-color-light);
+            color: var(--text-color-light);
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .toggle-mode:hover {
+            background-color: var(--secondary-color-light);
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="toggle-mode" onclick="toggleMode()">Light Mode</div>
+
+    <!-- Welcome Screen -->
+    <div class="container" id="welcome-screen">
+        <img src="logo.png" alt="NeuroSynapse Logo" class="logo">
+        <h1>Welcome to NeuroSynapse</h1>
+        <h3>Your health, connected with the future of neuroscience</h3>
+        <button onclick="navigateTo('role-selection')">Get Started</button>
+    </div>
+
+    <!-- Role Selection -->
+    <div class="container" id="role-selection" style="display: none;">
+        <img src="C:\Users\sanvi\OneDrive\Desktop\neurosynapseFrontBack\logo.png" alt="NeuroSynapse Logo" class="logo">
+        <h1>Are you a Doctor or a Patient?</h1>
+        <button onclick="navigateTo('login-signup', 'doctor')">Doctor</button>
+        <button onclick="navigateTo('login-signup', 'patient')">Patient</button>
+        <button onclick="navigateTo('welcome-screen')">Back</button>
+    </div>
+
+    <!-- Login/Sign Up Form -->
+    <div class="container" id="login-signup" style="display: none;">
+        <img src="logo.png" alt="NeuroSynapse Logo" class="logo">
+        <h1 id="login-title"></h1>
+        <form id="login-form" onsubmit="handleLogin(event)">
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <div id="signup-fields" style="display: none;">
+                <input type="text" id="name" placeholder="Enter your full name" required>
+                <input type="tel" id="phone" placeholder="Enter your phone number" required>
+                <input type="tel" id="emergency-contact" placeholder="Enter emergency contact number" required>
+                <input type="tel" id="doctor-number" placeholder="Enter your doctor's number" required>
+            </div>
+            <button type="submit" id="submit-button" onclick='navigateTo("real-time-prediction")'>Login</button>
+        </form>
+        <button onclick="navigateTo('role-selection')">Back</button>
+        <button id="toggle-signup" onclick="toggleSignup()">Sign Up</button>
+    </div>
+
+    <!-- Real-Time Prediction Screen -->
+    <div class="container" id="real-time-prediction" style="display: none;">
+        <h1>Real-Time Graph Prediction</h1>
+
+        <div>
+            <iframe src="http://127.0.0.1:8050/" title="Alzheimer's Prediction"></iframe>
+        </div>
+
+        
+
+        <button onclick="navigateTo('welcome-screen')">Back</button>
+    </div>
+
+    <script>
+        const body = document.body;
+
+        function navigateTo(pageId, role = null) {
+            document.querySelectorAll('.container').forEach(container => {
+                container.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+            if (pageId === 'login-signup') {
+                if (role === 'doctor') {
+                    document.getElementById('login-title').innerText = 'Doctor Login';
+                    document.getElementById('toggle-signup').style.display = 'none';
+                } else if (role === 'patient') {
+                    document.getElementById('login-title').innerText = 'Patient Login';
+                    document.getElementById('toggle-signup').style.display = 'inline-block';
+                }
+            }
+        }
+
+        function toggleSignup() {
+            const signupFields = document.getElementById('signup-fields');
+            const submitButton = document.getElementById('submit-button');
+            const toggleButton = document.getElementById('toggle-signup');
+            if (signupFields.style.display === 'none') {
+                signupFields.style.display = 'block';
+                submitButton.innerText = 'Sign Up';
+                toggleButton.innerText = 'Back to Login';
+            } else {
+                signupFields.style.display = 'none';
+                submitButton.innerText = 'Login';
+                toggleButton.innerText = 'Sign Up';
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            navigateTo('real-time-prediction'); // Navigate to the real-time prediction screen after login
+        }
+
+        function toggleMode() {
+            body.classList.toggle('dark-mode');
+            document.querySelector('.toggle-mode').innerText =
+                body.classList.contains('dark-mode') ? 'Dark Mode' : 'Light Mode';
+        }
+    </script>
+</body>
+</html>
